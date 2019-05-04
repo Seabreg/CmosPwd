@@ -1,0 +1,294 @@
+=========================================================================
+CmosPwd 
+Christophe GRENIER
+grenier@cgsecurity.org
+http://www.cgsecurity.org
+=========================================================================
+
+CmosPwd is a cmos/bios password recovery tool.
+CmosPwd is under GNU Public License. You can freely distribute it.
+It can be compiled under Dos, Windows, Linux, FreeBSD and NetBSD.
+
+Platforms
+- Dos-Windows version
+Well, ... it works!
+
+- Linux && BSD version
+Users can work on cmos backup but they need root priviledge to
+use ioperm function to have full access to cmos.
+
+- Windows NT, 2000, XP, 2003
+To work on cmos memory, ioperm need to be installed and running.
+ioperm gives direct port I/O access for specified ports to user-mode process
+(ring 3) using Ke386SetIoAccessMap and Ke386IoSetAccessProcess kernel functions.
+
+1- You need administrator priviledges to install this driver
+"ioperm.exe -i"
+2- Start the service if needed with "net start ioperm"
+3- Run "Cmospwd_win.exe"
+
+WARNING: You should disable or uninstall ioperm
+with "ioperm.exe -u" if you don't want to decrease
+your security!
+
+---------------------------------------------------
+---------------------------------------------------
+¦  Typical Usage for DOS and all Windows users    ¦
+---------------------------------------------------
+---------------------------------------------------
+
+1)  Identify your BIOS manufacturer (usually displayed at boot-up)
+
+2)  Start in DOS, or start a DOS session in Windows 95/98/ME.
+    For Windows NT or Windows 2000 boot from a DOS or Windows 95/98 boot
+    disk  (you can find boot disks at www.AnswersThatWork.com), and run
+    CMOSPWD from your boot floppy (or another floppy).
+
+3)  C:              [Enter]
+    cd \CMOSPWD    [Enter]
+    
+4)  Type  CMOSPWD  at the DOS prompt and press Enter.
+
+5)  CMOSPWD will display a list of possibilities.  Use the possibilities
+    itemised against your BIOS manufacturer.
+    Remember :
+    
+         a)  For AWARD BIOSes, use the Numeric Keypad (with NumLock ON).
+         b)  AWARD 4.50PG BIOS always accepts  "AWARD_SW", or "d8on", 
+             or "589589".
+         c)  Old Phoenix BIOSes will accept  "phoenix".
+       
+6)   If the standard method does not work, then try to kill
+     the CMOS password with  CMOSPWD /K  (and press Enter), 
+     and then see if you can get into the CMOS without a password.
+     If you can, you successfully "killed" the old CMOS password.
+     DO NOT KILL THE CMOS ON LAPTOPS!
+
+---------------------------------------------------
+---------------------------------------------------
+|General Usage  (List of commands)                |
+---------------------------------------------------
+---------------------------------------------------
+
+cmospwd [/d]
+cmospwd [/d] /[wlr] cmos_backup_file  write/load/restore
+cmospwd /k                            kill cmos
+cmospwd /m[01]*                       execute selected module
+ 
+ /d to dump cmos in ascii and scan code
+ /m0010011 to execute module 3,6 and 7
+
+Keyboard:
+ /kfr French AZERTY
+ /kde German QWERTY
+ default is US QWERTY
+
+---------------------------------------------------
+---------------------------------------------------
+|Laptops                                          |
+---------------------------------------------------
+---------------------------------------------------
+
+
+On laptops, the password is usually stored in an eeprom on the motherboard,
+you need an eeprom programmer (electronic device) to retrieve it.
+
+Acer 630: eeprom 93c56 ?
+Compaq M700: eeprom 24C02
+Dell Inspirion 5100: eeprom 93lc46, password in scan code at 0x310
+Dell Inspirion 7500: eeprom 24c164
+Dell Inspirion 8100: eeprom 24c02
+Dell Latitude C600: eeprom 24c02, password in scan code at 0x00, 0x10 and 0x90
+Dell Latitude C610: eeprom 24c02, password in scan code at 0x00, 0x10, 0x80 and 0x90
+Dell Latitude CPI: eeprom 24c02, password in scan code at 0x00, 0x10, 0x80
+Dell D600: eeprom 24c04, password in scan code at 0x110
+IBM Thinkpad X20: eeprom 24RFC08CN, password in scan code at 0x338
+IBM TP 240: eeprom ?, password in scan code at 0x338.
+IBM TP 380Z: eeprom 24c01, password in scan code at 0x38 and 0x40
+IBM TP 390: eeprom 24c03 (be carrefull, there are two eeprom)
+IBM TP 560X: eeprom 24c01, password in scan code at 0x38 and 0x40
+IBM TP 570: eeprom ?, password in scan code at 0x338 and 0x3B8.
+IBM TP 750C,755CX,760C,765D: eeprom 93c46, password in scan code at 0x38 and 0x40
+            OKI M811b may be written on the chip. Search near pcmcia slot or
+	    adjacent the floppy connector on the top side of the board
+IBM TP 770:  eeprom 24c01
+IBM TP 600E, T21, T23: 14 PIN 24RF08
+IBM TP T20,X20,X30: 24RF08, password in scan code at 0x338 and 0x340
+HP Omnibook 900,2100,4150,7150: eeprom AT24c164, 0x6D-0x7F area, unknow algo
+		            put a 00 at 0x7F to clear admin password
+HP Omnibook 6000: eeprom 24c08 or 24c164 0x50-0xBF area
+		  (maybe 0x50-0x6F only), unknow algo
+HP Omnibook 6100: eeprom 24c08
+HP Omnibook XE3: eeprom 24c16
+HP Omnibook 770x: eeprom 24c01
+HP Pavilion ze4455ea: eeprom 24c08
+HP VECTRA VL18: http://h200001.www2.hp.com/bc/docs/support/SupportManual/lpv06673/lpv06673.pdf
+Sony pcg-fx950: eeprom 93c46 ?
+Toshiba 74600C: eeprom 93c56
+VAIO 641: eeprom 24c02 write zero at 0x0
+be carrefull, there are two eeprom you must unsolder one to the pci
+controler it is in the down side of the bord
+
+VAIO 8851
+eeprom 24c02 (ic 903) write zero at adres 0x0
+the down side of the board
+
+VAIO srx 87: eeprom 2408 write zero at 0x0
+the ic is behind the modem in the top side of the board
+
+VAIO PCG-FX150, eeprom 24c04 near the reference IC1103
+VAIO PCG-GRX560, eeprom 24c04 near the reference IC1001
+
+You can get/buy eeprom programmer in electronic shops or labs, you need
+another PC to use it.
+You can desolder the eeprom with hot air or you can try to "clip" the
+eeprom. With the eeprom programmer, backup your eeprom and run
+"cmospwd /d /l eeprom_backup". If you don't see the password, you can try
+to fill the eeprom with zero or FF, don't forget the reset the cmos.
+
+---------------------------------------------------
+---------------------------------------------------
+|Toshiba                                          |
+---------------------------------------------------
+---------------------------------------------------
+Differents passwords give the same 32-bit CRC, so CmosPwd can only give one
+of them.
+To reset the password of an old Toshiba, you can use KeyDisk. (cf my web page)
+If this doesn't work, you can try to build the Toshiba Parallell loopback.
+To make a simple device that you connect to your parallell port, a lot of
+Toshiba computers remove the password when you boot it up.
+The device, named "loopback" by some, could be made out of any
+parallell wire with 25pins connectors (db25). You should connect
+these pins: 1-5-10, 2-11, 3-17, 4-12, 6-16, 7-13, 8-14, 9-15, 18-25.
+
+A db25 looks like:
+1    13
+_______
+\_____/
+14   25
+
+---------------------------------------------------
+
+Divers
+- Medion
+Try the password "am8888egh".
+- Award 4.50PG
+There is an universal password AWARD_SW.
+(d8on, 589589 ... works too)
+- Award 4.5x using DFI motherboards
+The universal password is "Y. C. Lu" (spaces and capitals as shown).
+Information from David Walker.
+- Award
+Differents passwords give the same 32-bit CRC, so CmosPwd can only give one
+of them. Use the numeric keypad.
+- COMPAQ LTE 5300 notebook
+Tolga Sinan Guney: there is a reset jumper on the motherboard
+- DIGITAL PC300, Phoenix 4.0 Rel 6.0,0
+Rene Pocisk: cmospwd /k works
+- Fujitsu ICL
+aksion: passwords are stored in EEPROM
+- Fujitsu Point 1600
+William Simcox: "I was able to clear the password and reset BIOS to
+default values using CMOSPWD /K"
+- Phoenix
+There is a backdoor in old version of Phoenix BIOS, the universal
+password is "phoenix".
+- Siemens Nixdorf
+PCD-4ND, Michael: You can clear the password of this phoenix 1.03 with "cmospwd /k"
+Scenic Mobil 700, Josef Benda: "cmospwd /k" works! Phoenix Note BIOS v4.0
+Scenic Mobile 510AGP, Bernd: "cmospwd /k" works! Phoenix 4.0 R6 Version 3F31 dated 9.2.2000
+- Acer Travelmate 530
+"cmospwd /k" removes the password.
+- Acer travelmate 2450
+"cmospwd /k" removes the password.
+- Sony Vaio PCG505HS
+Brad Frisbie: "cmospwd /k" works, Phoenix 6 R4
+- Sony Vaio PCG-FR105
+Andrea Michele Zoia: 'cmospwd_win /k' removes the password.
+- IBM NetVista 8303-41G
+Roel:  CmosPwd /k works, Phoenix Bios 4.0 Release 6.0.
+- Panasonic CF-25
+Stefan Stevens: CmosPwd /k works
+- Tulip Vision Line bn 100
+CmosPwd /k works, PhoenixBios 4.0 Release 6.0 11/03/01
+- LG GS50-5FY notebook
+Angelika Jurkiewicz: CmosPwd /k can remove supervisor password.
+- TI Extensa 600CD
+Dathan Alley: CmosPwd /k works
+
+What to do if you can't use cmospwd to clear your cmos ?
+Under Dos/Win9x, you can use debug to reset cmos CRC stored at 0x2E-0x2F
+debug
+-o 70 2E
+-o 71 0
+-q
+
+
+ 
+What to do if cmospwd don't work on your PC ?
+
+Try to clear password with cmospwd /k.
+If cmospwd /k doesn't work, password is stored in an EEPROM. Try to find a
+reset jumper on your motherboard or contact your PC vendor.
+If it works, I can try to discover how passwords are encrypted.
+I need to know what Bios you used and
+some cmos memory backup with their passwords. (cmospwd /w backupfile)
+For passwords, choose
+- some 1 and 2-letter passwords
+- BBBBBBB
+- BBBBBBC
+- BBBBBCB
+- BBBBCBB
+- BBBCBBB
+- BBCBBBB
+- BCBBBBB
+- CBBBBBB
+
+
+
+Thanks to
+- Philippe Garcia-Suarez (AMI Zenith, IBM Thinkpad)
+- Mark Miller (AMI WinBIOS)
+- Ian Sharpe (Award 4.51PG)
+- Darren Evans (Phoenix 4 release 6)
+- Teun van de Berg (bug report for "cmospwd /w")
+- Giovanni (IO access under NT)
+- Robert Rafai (Dell Latitude)
+- Guillaume Letessier (Toshiba)
+- hackvenger (Phoenix 4.0 realase 6.0)
+- "P. MADRE" (Award 4.51PG)
+- SerbianHacker/Sasha Miloshevic (IBM ThinkPad 770)
+- Michael (Siemens Nixdorf PCD-4ND, Phoenix 1.03)
+- w0rm (Phoenix a486 1.03)
+- Olaf Freyer (Phoenix 4.05 rev 1.02.943, Phoenix 4.06 rev 1.13.1107)
+- Peter "Bluefish" Magnusson, author of !BIOS
+- Tjiq (User password of AMI WinBIOS)
+- Jedi (Award 4.51PG)
+- Michel Creppy from Le Software Man
+- YOGESH M (Award 4.51PG)
+- Quattrocchi Stefano (Compaq DeskPro)
+- Pencho Penchev (Award Medallion 6.0)
+- Ernst Oudhof, bug correction for MODE_RESTORE_FORCE
+- Lewis Hadley (Award 6.0 Medallion)
+- Philippe Biondi (another AMI BIOS)
+- Tompa Lorand-Mihaly (AMI Bios ver. 1.08 AN 1994 and Award 6)
+- Jose Velasquez Villegas (ThinkPad 560x)
+- bre786 (IBM ThinkPad T20)
+- Ai-Nung Wang (Award 6)
+- Zoulou Yankee (Compaq Deskpro)
+- Markus Birth (Sony Vaio)
+- Einar Karttunen (NetBSD support)
+- Jason Gorski (Award 6.0PG, acer version)
+- Michael Perekrestov (Samsung P25)
+- Carl Farrington (VAIO/Acer)
+- Andrea Michele Zoia (VAIO)
+- Simon Comeau Martel (AMI 2.54)
+and to all the guys, who provided information about cmos and reported bugs.
+
+If you have problems or questions about cmospwd,
+please mail me.
+
+Christophe GRENIER
+grenier@cgsecurity.org
+http://www.cgsecurity.org
+
